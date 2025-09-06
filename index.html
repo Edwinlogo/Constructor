@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏗️Constructor - Servicios de Ingeniería Civil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: 
+                linear-gradient(135deg, rgba(74, 85, 104, 0.95) 0%, rgba(45, 55, 72, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff8c00, #ff6600);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        /* Services Grid */
+        .services {
+            padding: 4rem 0;
+        }
+
+        .services h2 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-category {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .category-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .service-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-list li {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .service-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ff8c00;
+            font-weight: bold;
+        }
+
+        .service-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .service-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            background: linear-gradient(45deg, #ff8c00, #ff6600);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: 
+                linear-gradient(135deg, rgba(74, 85, 104, 0.98) 0%, rgba(45, 55, 72, 0.98) 100%),
+                url('https://images.unsplash.com/photo-1541976590-713941681591?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .modal h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .quote-form {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .quote-form input, .quote-form textarea {
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .quote-form input::placeholder, .quote-form textarea::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff8c00, #ff6600);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🏗️Constructor</div>
+                <nav class="nav">
+                    <a href="#servicios">Servicios</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="#proyectos">Proyectos</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Servicios Profesionales de Construcción</h1>
+                <p>Soluciones integrales para tu proyecto de construcción</p>
+                <a href="#servicios" class="cta-button">Explorar Servicios</a>
+            </div>
+        </section>
+
+        <section class="services" id="servicios">
+            <div class="container">
+                <h2>Nuestros Servicios</h2>
+                <div class="services-grid">
+                    <!-- Consultoría y Presupuestos -->
+                    <div class="service-category">
+                        <div class="category-header">
+                            <div class="category-icon">📊</div>
+                            <div class="category-title">Consultoría y Presupuestos</div>
+                        </div>
+                        <ul class="service-list">
+                            <li>Estimación de materiales</li>
+                            <li>Elaboración de presupuestos detallados</li>
+                            <li>Cortes y actas de cobro para obra</li>
+                            <li>Supervisión técnica de obras</li>
+                        </ul>
+                        <button class="service-button" onclick="openModal('consultoria')">Solicitar Cotización</button>
+                    </div>
+
+                    <!-- Topografía y Medición -->
+                    <div class="service-category">
+                        <div class="category-header">
+                            <div class="category-icon">📐</div>
+                            <div class="category-title">Topografía y Medición</div>
+                        </div>
+                        <ul class="service-list">
+                            <li>Escaneo 3D de obras</li>
+                            <li>Medición de volúmenes de tierra</li>
+                            <li>Cálculo de movimientos de tierra</li>
+                            <li>Levantamientos topográficos</li>
+                        </ul>
+                        <button class="service-button" onclick="openModal('topografia')">Solicitar Cotización</button>
+                    </div>
+
+                    <!-- Diseño y Cálculo Estructural -->
+                    <div class="service-category">
+                        <div class="category-header">
+                            <div class="category-icon">🏗️</div>
+                            <div class="category-title">Diseño y Cálculo Estructural</div>
+                        </div>
+                        <ul class="service-list">
+                            <li>Diseños estructurales y arquitectónicos</li>
+                            <li>Renders 3D de viviendas</li>
+                            <li>Cálculo de elementos en concreto</li>
+                            <li>Cálculo de elementos en acero</li>
+                        </ul>
+                        <button class="service-button" onclick="openModal('diseno')">Solicitar Cotización</button>
+                    </div>
+
+                    <!-- Trámites y Licencias -->
+                    <div class="service-category">
+                        <div class="category-header">
+                            <div class="category-icon">📋</div>
+                            <div class="category-title">Trámites y Licencias</div>
+                        </div>
+                        <ul class="service-list">
+                            <li>Trámite de licencias urbanísticas</li>
+                            <li>Gestión ante entidades municipales</li>
+                            <li>Documentación técnica</li>
+                            <li>Asesoría en normativas de Ibagué</li>
+                        </ul>
+                        <button class="service-button" onclick="openModal('tramites')">Solicitar Cotización</button>
+                    </div>
+
+                    <!-- Construcción Campestre -->
+                    <div class="service-category">
+                        <div class="category-header">
+                            <div class="category-icon">🏡</div>
+                            <div class="category-title">Construcción Campestre</div>
+                        </div>
+                        <ul class="service-list">
+                            <li>Construcción de viviendas campestres</li>
+                            <li>Mampostería especializada</li>
+                            <li>Proyectos residenciales completos</li>
+                            <li>Adaptación al terreno</li>
+                        </ul>
+                        <button class="service-button" onclick="openModal('construccion')">Solicitar Cotización</button>
+                    </div>
+
+                    <!-- Acabados y Domótica -->
+                    <div class="service-category">
+                        <div class="category-header">
+                            <div class="category-icon">🎨</div>
+                            <div class="category-title">Acabados y Domótica</div>
+                        </div>
+                        <ul class="service-list">
+                            <li>Enchapes y revestimientos</li>
+                            <li>Graniplast, estuco y pañete</li>
+                            <li>Pintura especializada</li>
+                            <li>Instalación de sistemas de domótica</li>
+                        </ul>
+                        <button class="service-button" onclick="openModal('acabados')">Solicitar Cotización</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contacto">
+            <div class="container">
+                <h2>¿Listo para comenzar tu proyecto?</h2>
+                <p>Contáctanos para una consulta gratuita y cotización personalizada</p>
+                <div class="contact-buttons">
+                    <a href="tel:+573144290830" class="contact-btn">📞 Llamar Ahora</a>
+                    <a href="https://wa.me/+573144290830" class="contact-btn">💬 WhatsApp</a>
+                    <a href="mailto:constructor@dcedwin.com" class="contact-btn">📧 Email</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; text-align: left;">
+                <div>
+                    <h3 style="color: #ff8c00; margin-bottom: 1rem; font-size: 1.2rem;">Constructor</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6;">
+                        Servicios profesionales de ingeniería civil en Ibagué y Tolima. 
+                        Comprometidos con la excelencia y la innovación en cada proyecto.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="color: #ff8c00; margin-bottom: 1rem;">Servicios Principales</h4>
+                    <ul style="list-style: none; color: rgba(255, 255, 255, 0.7); line-height: 2;">
+                        <li>• Diseño y Cálculo Estructural</li>
+                        <li>• Construcción Campestre</li>
+                        <li>• Trámites y Licencias</li>
+                        <li>• Topografía 3D</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #ff8c00; margin-bottom: 1rem;">Contacto</h4>
+                    <div style="color: rgba(255, 255, 255, 0.7); line-height: 2;">
+                        <p>📍 Ibagué, Tolima, Colombia</p>
+                        <p>📞 +57 314 429 0830</p>
+                        <p>📧 constructor@dcedwin.com</p>
+                        <p>🌐 www.dcedwin.com</p>
+                    </div>
+                </div>
+            </div>
+            <hr style="border: none; border-top: 1px solid rgba(255, 255, 255, 0.2); margin: 2rem 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="margin: 0;">&copy; 2025 Constructor. Todos los derechos reservados.</p>
+                <p style="margin: 0; font-size: 0.9rem;">
+                    Diseñado con ❤️ para Ibagué | 
+                    <span style="color: #ff8c00;">Ingeniería Civil Profesional</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para cotizaciones -->
+    <div id="quoteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">Solicitar Cotización</h3>
+            <p id="modalDescription">Complete el formulario y nos contactaremos con usted en las próximas 24 horas.</p>
+            
+            <form class="quote-form" onsubmit="handleSubmit(event)">
+                <input type="text" placeholder="Nombre completo" required>
+                <input type="tel" placeholder="Teléfono" required>
+                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Ubicación del proyecto">
+                <textarea placeholder="Descripción detallada del proyecto" rows="4" required></textarea>
+                <button type="submit" class="submit-btn">Enviar Solicitud</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('quoteModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+
+        const serviceInfo = {
+            consultoria: {
+                title: "Consultoría y Presupuestos",
+                description: "Obtenga una estimación precisa de materiales y costos para su proyecto de construcción."
+            },
+            topografia: {
+                title: "Topografía y Medición 3D",
+                description: "Mediciones precisas con tecnología de escaneo 3D para su proyecto."
+            },
+            diseno: {
+                title: "Diseño y Cálculo Estructural",
+                description: "Diseños arquitectónicos y estructurales con renders 3D profesionales."
+            },
+            tramites: {
+                title: "Trámites y Licencias en Ibagué",
+                description: "Gestión completa de licencias urbanísticas y trámites municipales."
+            },
+            construccion: {
+                title: "Construcción Campestre",
+                description: "Construcción especializada de viviendas campestres adaptadas al entorno."
+            },
+            acabados: {
+                title: "Acabados y Domótica",
+                description: "Acabados de alta calidad y sistemas de automatización para su hogar."
+            }
+        };
+
+        function openModal(service) {
+            const info = serviceInfo[service];
+            modalTitle.textContent = info.title;
+            modalDescription.textContent = info.description;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('¡Gracias por su solicitud! Nos contactaremos con usted en las próximas 24 horas.');
+            closeModal();
+            event.target.reset();
+        }
+
+        // Animaciones de entrada
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Inicializar animaciones
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.service-category');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
