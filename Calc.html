@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Costo de Proyecto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .escalera-group {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .resultado {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .resultado h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .detalle {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total {
+            font-size: 2em;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://via.placeholder.com/150x80/667eea/ffffff?text=LOGO" alt="Logo Empresa" class="logo">
+            <h1>Calculadora de Proyecto</h1>
+            <p>Estimación de costos de construcción</p>
+        </div>
+
+        <div class="form-container">
+            <div class="form-group">
+                <label>Largo del área (metros)</label>
+                <input type="number" id="largo" min="1" step="0.1" placeholder="Ej: 10">
+            </div>
+
+            <div class="form-group">
+                <label>Ancho del área (metros)</label>
+                <input type="number" id="ancho" min="1" step="0.1" placeholder="Ej: 8">
+            </div>
+
+            <div class="form-group">
+                <label>Cantidad de pisos</label>
+                <select id="niveles">
+                    <option value="">Seleccione...</option>
+                    <option value="1">1 Piso</option>
+                    <option value="2">2 Pisos</option>
+                </select>
+            </div>
+
+            <div class="escalera-group" id="escaleraGroup">
+                <label>Tipo de escalera</label>
+                <select id="escalera">
+                    <option value="">Seleccione...</option>
+                    <option value="concreto">Concreto</option>
+                    <option value="metalica">Metálica</option>
+                    <option value="metal-madera">Metal y Madera</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Cantidad de habitaciones</label>
+                    <input type="number" id="habitaciones" min="1" placeholder="Ej: 3">
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad de baños</label>
+                    <input type="number" id="banos" min="1" placeholder="Ej: 2">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ubicación</label>
+                <select id="ubicacion">
+                    <option value="">Seleccione...</option>
+                    <option value="urbana">Urbana</option>
+                    <option value="rural">Rural</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="calcularCosto()">Calcular Costo del Proyecto</button>
+
+            <div class="resultado" id="resultado">
+                <h2>Resumen del Proyecto</h2>
+                <div class="detalle">
+                    <span>Área total:</span>
+                    <strong id="areaTotal"></strong>
+                </div>
+                <div class="detalle">
+                    <span>Complejidad:</span>
+                    <strong id="complejidad"></strong>
+                </div>
+                <div class="total">
+                    TOTAL: <span id="costoTotal"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const nivelesSelect = document.getElementById('niveles');
+        const escaleraGroup = document.getElementById('escaleraGroup');
+
+        nivelesSelect.addEventListener('change', function() {
+            if (this.value === '2') {
+                escaleraGroup.style.display = 'block';
+            } else {
+                escaleraGroup.style.display = 'none';
+            }
+        });
+
+        function calcularCosto() {
+            const largo = parseFloat(document.getElementById('largo').value);
+            const ancho = parseFloat(document.getElementById('ancho').value);
+            const niveles = parseInt(document.getElementById('niveles').value);
+            const habitaciones = parseInt(document.getElementById('habitaciones').value);
+            const banos = parseInt(document.getElementById('banos').value);
+            const ubicacion = document.getElementById('ubicacion').value;
+            const escalera = document.getElementById('escalera').value;
+
+            if (!largo || !ancho || !niveles || !habitaciones || !banos || !ubicacion) {
+                alert('Por favor complete todos los campos requeridos');
+                return;
+            }
+
+            if (niveles === 2 && !escalera) {
+                alert('Por favor seleccione el tipo de escalera para 2 pisos');
+                return;
+            }
+
+            const area = largo * ancho;
+            
+            let complejidad;
+            let precioM2;
+            
+            // Determinar complejidad
+            if (habitaciones < 4 && banos <= 2) {
+                complejidad = 1;
+            } else if (habitaciones <= 6 && banos < 4) {
+                complejidad = 2;
+            } else {
+                complejidad = 3;
+            }
+            
+            // Asignar precio por m² según ubicación y complejidad
+            if (ubicacion === 'urbana') {
+                if (complejidad === 1) precioM2 = 11000;
+                else if (complejidad === 2) precioM2 = 14000;
+                else precioM2 = 20000;
+            } else { // rural
+                if (complejidad === 1) precioM2 = 9000;
+                else if (complejidad === 2) precioM2 = 12000;
+                else precioM2 = 15000;
+            }
+
+            let costoBase = area * precioM2;
+            
+            let adicionalNivel = 0;
+            if (niveles === 2) {
+                adicionalNivel = precioM2 * 0.40 * area;
+            }
+            
+            // Costo adicional por tipo de escalera
+            let costoEscalera = 0;
+            if (niveles === 2) {
+                if (escalera === 'concreto') {
+                    costoEscalera = 200000;
+                } else if (escalera === 'metalica') {
+                    costoEscalera = 150000;
+                }
+                // metal-madera no suma costo adicional
+            }
+
+            let costoTotal = costoBase + adicionalNivel + costoEscalera + 480000;
+            
+            if (costoTotal < 1000000) {
+                costoTotal = 1000000;
+            }
+
+            document.getElementById('areaTotal').textContent = area.toFixed(2) + ' m²';
+            document.getElementById('complejidad').textContent = 'Nivel ' + complejidad;
+            document.getElementById('costoTotal').textContent = '$' + costoTotal.toLocaleString('es-CO');
+
+            document.getElementById('resultado').style.display = 'block';
+            document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
